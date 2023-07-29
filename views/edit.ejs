@@ -1,6 +1,22 @@
 <%- include('header'); -%>
+<script>
+    function validateForm() {
+    let title = document.forms["myForm"]["postTitle"].value;
+    let content = document.forms["myForm"]["postBody"].value;
+
+    if(title == "") {
+        alert("Title must be filled out");
+        return false;
+      }
+    if(content == ""){
+        alert("Post Content must be filled out");
+        return false;
+    }
+  }
+</script>
+
 <h1>Edit Post</h1>
-<form action="/edit-post/<%=post._id%>?_method=PUT" method="POST">
+<form name="myForm" action="/edit-post/<%=post._id%>?_method=PUT" method="POST" onsubmit="return validateForm()">
     <div class="form-group">
     <label for="title"><b>Title</b></label>
     <input class="form-control" type="text" name="postTitle" value="<%=post.title%>">
