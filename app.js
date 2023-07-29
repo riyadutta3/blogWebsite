@@ -38,9 +38,19 @@ app.get("/", function(req, res){
   });
 });
 
+app.get("/dashboard", function(req, res){
+  Post.find({}).
+  then( posts => {
+    res.render("dashboard", {
+      posts: posts
+      });
+  });
+})
+
 app.get("/compose", function(req, res){
   res.render("compose");
 });
+
 
 app.post("/compose", function(req, res){
   const post = new Post({
@@ -57,6 +67,36 @@ app.post("/compose", function(req, res){
     console.log(err);
   });
 });
+
+app.get("/edit-post/:postId", function(req, res){
+  const requestedPostId = req.params.postId;
+      Post.findOne({_id: requestedPostId})
+      .then(post => {
+        res.render('edit', { 
+          post: post
+        }); })
+        .catch(err => console.log(err)); 
+})
+
+app.post("/edit-post/:postId", function(req, res){
+  const requestedPostId = req.params.postId;
+      Post.findOneAndUpdate({_id: requestedPostId},{title: req.body.postTitle, content: req.body.postBody})
+      .then(result => {
+        res.redirect('/dashboard');
+      })
+      .catch(err => console.log(err));
+})
+
+app.post("/delete-post/:postId", function(req, res){
+  const requestedPostId = req.params.postId;
+  Post.deleteOne({_id: requestedPostId})
+  .then(() => {
+    res.redirect('/dashboard');
+    }).
+  catch(err => {
+    console.log(err);
+  });
+})
 
 app.get("/posts/:postId", function(req, res){
 

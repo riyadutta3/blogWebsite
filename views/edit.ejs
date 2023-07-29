@@ -1,0 +1,14 @@
+<%- include('header'); -%>
+<h1>Edit Post</h1>
+<form action="/edit-post/<%=post._id%>?_method=PUT" method="POST">
+    <div class="form-group">
+    <label for="title"><b>Title</b></label>
+    <input class="form-control" type="text" name="postTitle" value="<%=post.title%>">
+  
+    <label for="body"><b>Post</b></label>
+    <textarea class="form-control" name="postBody" cols="30" rows="5"><%=post.content%></textarea>
+  
+   </div>
+   <input type="submit" value="Update" class="btn btn-success">
+  </form>
+<%- include('footer'); -%>
